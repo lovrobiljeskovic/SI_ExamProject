@@ -2,6 +2,7 @@ const Catering = require('./catering')
 const express = require('express')
 const app = express()
 const port = 3000
+app.use(express.json())
 
 function createCaterings() {
     var cateringList = []

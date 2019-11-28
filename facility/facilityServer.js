@@ -2,6 +2,7 @@ const Facility = require('./facility')
 const express = require('express')
 const app = express()
 const port = 3002
+app.use(express.json())
 
 function createFacilities() {
     var facilityList = []
