@@ -10,11 +10,16 @@ apiEndpoints:
   catering:
     host: localhost
     paths: '/catering/*'
+  event:
+    host: localhost
+    paths: '/event'
 serviceEndpoints:
   facility:
     url: 'http://localhost:3002/'
   catering:
     url: 'http://localhost:3000/'
+  event:
+    url: 'http://localhost:3001/'
 policies: 
   - rewrite
   - basic-auth
@@ -40,7 +45,7 @@ pipelines:
       - proxy:
           - action:
               serviceEndpoint: catering
-              changeOrigin: true
+              
   - name: facility
     apiEndpoints:
       - facility
@@ -55,4 +60,20 @@ pipelines:
       - proxy:
         - action:
             serviceEndpoint: facility
+
+  - name: event
+    apiEndpoints:
+      - event
+    policies:
+      - rewrite:
+          - 
+            condition:
+                name: regexpmatch
+                match: ^/event/(.*)$
+            action:
+                rewrite: /event/$1
+      - proxy:
+        - action:
+            serviceEndpoint: event
+            changeOrigin: true
   
