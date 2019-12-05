@@ -26,7 +26,7 @@ jobs:
         # Run server
         
         node cateringServer.js
-        kill %1 %2
+        killall node
         
       env:
         CI: true
