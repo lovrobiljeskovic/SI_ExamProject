@@ -21,11 +21,11 @@ jobs:
       run: |
         # install dependencies
         
-        - cd catering && npm ci
+        cd catering && npm ci
         
         # Run server
         
-        - cd catering && node cateringServer.js
+        node cateringServer.js
         
       env:
         CI: true
