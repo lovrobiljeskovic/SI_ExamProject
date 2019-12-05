@@ -1,13 +1,10 @@
 const Catering = require('./catering')
 const express = require('express')
+var cors = require('cors');
 const app = express()
 const port = 3000
 app.use(express.json())
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-  });
+app.use(cors());
 
 function createCaterings() {
     var cateringList = []
@@ -40,16 +37,16 @@ app.get('/catering/:eventId', function(req, res) {
 app.post('/catering/:cateringId', function(req, res) {
     if(req.body.eventId === null || undefined) {
         res.sendStatus(422)
-        return
+        return "";
     }
     for(var i = 0; i<caterings.length; i++) {
         if(caterings[i].cateringId == req.params.cateringId) {
             caterings[i].addEventId(req.body.eventId)
-            res.sendStatus(200)
-            return
+            res.status(200).send({message: "success"});
+            return "";
         }
     }
-    return res.sendStatus(422)
-
+    res.status(400).send({message: "Cant find catering with eventid"});
 })
+
 app.listen(port, () => console.log(`List of all caterings ${caterings}!`))

@@ -12,7 +12,7 @@ apiEndpoints:
     paths: '/catering/*'
   event:
     host: localhost
-    paths: '/event'
+    paths: '/event/*'
 serviceEndpoints:
   facility:
     url: 'http://localhost:3002/'
@@ -45,12 +45,13 @@ pipelines:
       - proxy:
           - action:
               serviceEndpoint: catering
-              
+              changeOrigin: true
   - name: facility
     apiEndpoints:
       - facility
     policies:
-      - rewrite:
+      - 
+        rewrite:
           - 
             condition:
                 name: regexpmatch
@@ -60,7 +61,7 @@ pipelines:
       - proxy:
         - action:
             serviceEndpoint: facility
-
+            changeOrigin: true
   - name: event
     apiEndpoints:
       - event
