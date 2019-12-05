@@ -1,0 +1,38 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>The HTML5 Herald</title>
+    <meta name="description" content="The HTML5 Herald">
+    <meta name="author" content="SitePoint">
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body class="bg"  onload="getInputValues()">
+    <ul>
+        <li><a href="#">create event</a></li>
+        <li><a href="events.html">See events</a></li>
+    </ul>
+    <center>
+
+
+        <form name="form" style="margin-top: 5%; width: 35%;">
+            <select id="catering">
+                <option value="ses">Waiting for input</option>
+            </select>
+
+            <select id="facility">
+                <option value="ses">Waiting for input</option>
+            </select>
+            <button type="submit" onCLick="submitForm()">Create event</button>
+        </form>
+
+    </center>
+
+    <script src="index.js"></script>
+</body>
+
+</html>
