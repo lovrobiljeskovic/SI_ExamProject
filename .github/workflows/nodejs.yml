@@ -27,5 +27,7 @@ jobs:
         
         node cateringServer.js
         
+        kill %1 %2
+        
       env:
         CI: true
