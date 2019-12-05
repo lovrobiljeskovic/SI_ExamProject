@@ -20,10 +20,12 @@ jobs:
     - name: npm install, build, and test
       run: |
         # install dependencies
-        cd catering && npm ci
+        
+        - cd catering && npm ci
         
         # Run server
-        cd catering && node cateringServer.js
+        
+        - cd catering && node cateringServer.js
         
       env:
         CI: true
