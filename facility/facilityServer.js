@@ -27,8 +27,10 @@ function createFacilities() {
 
 var facilities = createFacilities()
 
-app.get('/', (req, res) => res.send(facilities))
-app.get('/:eventId', function(req, res) {
+app.get('/facility/', (req, res) => {
+    res.send(facilities)})
+
+app.get('/facility/:eventId', function(req, res) {
     var returnList = []
     for(var i = 0; i< facilities.length; i++) {
         var bool = facilities[i].eventExists(req.params.eventId)
