@@ -20,8 +20,8 @@ function createCaterings() {
 
 var caterings = createCaterings()
 
-app.get('/', (req, res) => res.send(caterings))
-app.get('/:eventId', function(req, res) {
+app.get('/catering/', (req, res) => res.send(caterings))
+app.get('/catering/:eventId', function(req, res) {
     var returnList = []
     for(var i = 0; i< caterings.length; i++) {
         var bool = caterings[i].eventExists(req.params.eventId)
@@ -33,11 +33,18 @@ app.get('/:eventId', function(req, res) {
 })
 
 app.post('/catering/:cateringId', function(req, res) {
+    if(req.body.eventId === null || undefined) {
+        res.sendStatus(422)
+        return
+    }
     for(var i = 0; i<caterings.length; i++) {
         if(caterings[i].cateringId == req.params.cateringId) {
             caterings[i].addEventId(req.body.eventId)
+            res.sendStatus(200)
+            return
         }
     }
+    return res.sendStatus(422)
 
 })
 app.listen(port, () => console.log(`List of all caterings ${caterings}!`))
