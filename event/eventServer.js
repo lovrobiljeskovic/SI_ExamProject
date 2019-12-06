@@ -8,20 +8,23 @@ app.use(cors());
 
 let events = []
 app.get('/event/', function (req, res) {
-    try{
-        var number = parseInt(fs.readFileSync("eventid.txt"));
+    try {
+        console.log(process.cwd())
+        var data = fs.readFileSync('number.txt', { encoding: 'utf8' })
+        console.log(data);
+        var number = parseInt(data);
         events.push(number)
-        console.log(number);
         var newNumber = number+1;
-        fs.writeFile("eventid.txt",newNumber , (err) => {
+        fs.writeFile("number.txt",newNumber , (err) => {
             if (err) throw err;
             console.log("succes overwriting file")
         });
-        res.send({id: number})
+        res.send({id: number});
+        
 
-    }catch(e){
+    } catch (e) {
         console.log(e)
-        res.send({message: "Error occured"})
+        res.send({ message: "Error occured" })
     }
 })
 

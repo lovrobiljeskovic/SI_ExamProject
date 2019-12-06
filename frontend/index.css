@@ -67,3 +67,11 @@ button[type=button] {
  
     background-size:cover;
   }
+
+
+  .greyborder{
+    width: 60%;
+    height: 15%;
+    background-color: #f1f1c1;
+    color: black !important;
+  }
