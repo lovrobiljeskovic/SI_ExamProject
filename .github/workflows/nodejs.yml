@@ -25,7 +25,7 @@ jobs:
         
         # Run server
         
-        node cateringServer.js %
+        node cateringServer.js &
         kill %1
         
       env:
