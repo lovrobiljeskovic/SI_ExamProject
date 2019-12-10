@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="index.css">
 </head>
 
-<body class="bg"  onload="getInputValues()">
+<body class="bg" onload="getInputValues()">
     <ul>
         <li><a href="#">create event</a></li>
         <li><a href="events.html">See events</a></li>
@@ -19,14 +19,20 @@
 
 
         <div name="form" style="margin-top: 5%; width: 35%;">
-            <select id="catering">
-                <option value="ses">Waiting for input</option>
-            </select>
-
-            <select id="facility">
-                <option value="ses">Waiting for input</option>
-            </select>
-            <button type="submit" onCLick="submitForm()">Create event</button>
+            <h2<label>Event name</label></h2> <input id="eventName" type="text" />
+                <div id="cateringSelector">
+                    <h2<label>Catering</label>
+                        <select multiple id="catering">
+                            <option value="ses">Waiting for input</option>
+                        </select>
+                </div>
+                <div id="facilitySelector">
+                    <h2<label>Facility</label>
+                        <select multiple id="facility">
+                            <option value="ses">Waiting for input</option>
+                        </select>
+                        <button type="submit" onCLick="submitForm()">Create event</button>
+                </div>
         </div>
 
     </center>
