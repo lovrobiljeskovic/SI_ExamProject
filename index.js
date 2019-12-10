@@ -1,5 +1,5 @@
 let GLOBAL_EVENTS = {};
-
+let participantsList = [];
 
 async function getInputValues() {
     var res = getCatering();
@@ -55,12 +55,12 @@ function submitForm() {
     var select = catering.querySelector("select");
     var selectedCatering = [].map.call(select.selectedOptions, function (option) {
         return option.value;
-    }); 
+    });
 
     var select1 = facility.querySelector("select");
     var selectedFacility = [].map.call(select1.selectedOptions, function (option) {
         return option.value;
-    }); 
+    });
     console.log("http://localhost:8080/event/" + name)
     fetch("http://localhost:8080/event/" + name, {
         method: 'POST',
@@ -76,15 +76,15 @@ function submitForm() {
             return res.id;
         })
         .then(async eventId => {
-            for (i in selectedFacility){
+            for (i in selectedFacility) {
                 await addEventToResources("http://localhost:8080/facility/", selectedFacility[i], eventId)
             }
-            for (index in selectedCatering){
+            for (index in selectedCatering) {
                 await addEventToResources("http://localhost:8080/catering/", selectedCatering[index], eventId)
             }
             return "succes";
         })
-        .then( () => {
+        .then(() => {
             clearAllValues();
         }).catch((e) => {
             console.log(e)
@@ -93,14 +93,14 @@ function submitForm() {
 
 }
 
-function clearAllValues(){
+function clearAllValues() {
     document.getElementById("catering").options.selectedIndex = -1;
     document.getElementById("facility").options.selectedIndex = -1;
     document.getElementById("eventName").value = "";
 }
 
 async function addEventToResources(url, resourceId, _eventId) {
-    console.log(url, resourceId, _eventId)
+    console.log(url + resourceId, _eventId)
     var response = await fetch(url + resourceId, {
         method: 'POST',
         headers: {
@@ -125,7 +125,7 @@ async function getEvents() {
                 let cater = await fetch('http://localhost:8080/catering/' + res[i].id)
                 let facility = await facil.json();
                 let catering = await cater.json();
-                eventList.push({ event: {id : res[i].id, name: res[i].name }, facilities: await facility, caterings: await catering });
+                eventList.push({ event: { id: res[i].id, name: res[i].name }, facilities: await facility, caterings: await catering });
                 GLOBAL_EVENTS[res[i].id] = { name: res[i].name, facilities: await facility, caterings: await catering };
             }
             return eventList;
@@ -134,50 +134,100 @@ async function getEvents() {
             console.log(events)
             var table = document.getElementById("mytable");
             table.innerHTML = "";
-            table.innerHTML = "<tr> <th> name </th> <th> eventId </th> <th> facility </th> <th> catering </th> <th> </th> </tr>"
+            let tableString;
+            tableString = "<tr> <th> Name </th> <th> Event id </th> <th> Facility </th> <th> Catering </th> <th> </th> </tr>"
             //console.log(obj.events.events.length);
             for (var i = 0; i < events.length; i++) {
-                table.innerHTML += "<tr> <td>" + events[i].event.name + "</td> <td> " + events[i].event.id + "</td>" + "<td> " + events[i].facilities[0].name + "</td> <td> " + events[i].caterings[0].name + "</td> <td> <center> <button onClick='getSingleEvent(" + events[i].event.id + ")'> show </button> </center> </td> </tr>"
+                try {
+                    tableString += "<tr> <td>" + events[i].event.name + "</td> <td> " + events[i].event.id + "</td>" + "<td> " + events[i].facilities[0].name + "</td> <td> " + events[i].caterings[0].name + "</td> <td> <center> <button class='niceButton' onClick='redirect(" + events[i].event.id + ")'> show </button> </center> </td> </tr>"
+                } catch{
+                    continue;
+                }
+                if(i === events.length-1){
+                    table.innerHTML += tableString;
+                }
             }
 
         })
 }
 
-function getSingleEvent(id) {
-    document.getElementById('singleevent').innerHTML = `
-    <div class="greyborder" style="padding-bottom: 2%; !important">
-    <a> Name: </a> <a id="eventname"></a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <a> Id: </a> <a id="eventid"> </a> <br> <br>
-    <a>Facilities: </a>
-    <table id="facilities">
-    </table>
-    <br>
-    <a>Caterings: </a>
-    <table id="caterings" style="padding-bottom: 5%;">
-    </table></div>`
+function goBack(){
+    window.history.back();
+}
 
-    var eventnameDOM = document.getElementById('eventname');
+function redirect(eventid) {
+    sessionStorage.setItem('eventid', eventid);
+    window.location.href = "event.html";
+}
+
+async function getSingleEvent() {
+    let eventId = sessionStorage.getItem('eventid');
     var eventidDOM = document.getElementById('eventid');
-    var facilitiesDOM = document.getElementById('facilities');
-    var cateringDOM = document.getElementById('caterings');
-    var event = GLOBAL_EVENTS[id];
-    eventidDOM.innerHTML = id
-    eventnameDOM.innerText = GLOBAL_EVENTS[id].name;
-    facilitiesDOM.innerHTML = "<tr> <th> name </th> <th> address </th> <th> capacity </th> </tr>"
-    event.facilities.forEach((facility) => {
-        facilitiesDOM.innerHTML += "<tr> <td>" + facility.name + "</td>  <td>" + facility.address + "</td> <td>" + facility.capacity + "</td> </tr>"
+    var facilitiesDOM = document.getElementById('facilitiesBody');
+    var cateringDOM = document.getElementById('cateringsBody');
+    var participantDOM = document.getElementById('participantsBody');
+    eventidDOM.innerHTML = eventId
+
+    let facil = await fetch('http://localhost:8080/facility/' + eventId)
+    let cater = await fetch('http://localhost:8080/catering/' + eventId)
+    //let partici = await fetch('http://localhost:8080/participants/' + eventId)
+    let facility = await facil.json();
+    let catering = await cater.json();
+    //let participants = await partici.json();
+
+    facility.forEach((facility) => {
+            facilitiesDOM.innerHTML  += "<tr> <td>" + facility.name + "</td>  <td>" + facility.address + "</td> <td>" + facility.capacity + "</td> </tr>"
     })
-    cateringDOM.innerHTML = "<tr> <th>name </th> <th> address </th> <th> food type </th> </tr>"
-    event.caterings.forEach((catering) => {
-        cateringDOM.innerHTML += "<td> " + catering.name + "</td>  <td> " + catering.address + "</td> <td> " + catering.typeOfFood + "</td>"
+
+    catering.forEach((catering) => {
+        cateringDOM.innerHTML += "<tr> <td> " + catering.name + "</td>  <td> " + catering.address + "</td> <td> " + catering.typeOfFood + "</td> </tr>"
     })
-
-    console.log(GLOBAL_EVENTS[id] , id)
-
-
+ 
+    /*
+    participants.forEach((participant) => {
+        participantDOM.innerHTML += "<tr><td> " + participant.name + "</td>  <td> " + participant.mail + "</td></tr>"
+    })
+    */
 
 }
 
 function getGlobalEvents() {
     return GLOBAL_EVENTS;
+}
+
+function addParticipant2List(){
+    let name= document.getElementById("participantName").value
+    let email = document.getElementById("participantEmail").value
+
+    let participantDOM = document.getElementById("participantBody");
+
+    participantDOM.innerHTML += "<tr> <td> "+ name +"</td> <td> "+email+" </td> </tr>";
+    participantsList.push({Name: name, Email: email})
+
+    document.getElementById("participantName").value = "";
+    document.getElementById("participantEmail").value = "";
+}
+
+async function submitParticipants(){
+    //let participants = document.getElementById("participantsBody")
+    console.log(participantsList)
+    let id = sessionStorage.getItem('eventid');
+    for (var i = 0; i < participantsList.length; i++){
+        try{
+            await fetch('http://localhost:8080/participant/' + id,{
+                method: 'POST',
+                body: JSON.stringify(participantsList[i])
+            })
+        }catch{
+            alert("somethign went wrong")
+        }
+
+        if(i === participantsList.length-1){
+            document.getElementById("participantBody").innerHTML = "";
+        }
+
+    }
+
+
+
 }

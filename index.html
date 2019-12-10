@@ -12,23 +12,23 @@
 
 <body class="bg" onload="getInputValues()">
     <ul>
-        <li><a href="#">create event</a></li>
-        <li><a href="events.html">See events</a></li>
+        <li><a href="#">Create Event</a></li>
+        <li><a href="events.html">See Events</a></li>
     </ul>
     <center>
 
 
         <div name="form" style="margin-top: 5%; width: 35%;">
-            <h2<label>Event name</label></h2> <input id="eventName" type="text" />
+            <h2<label>Event name</label></h2> <input id="eventName" type="text" class="inputText" />
                 <div id="cateringSelector">
                     <h2<label>Catering</label>
-                        <select multiple id="catering">
+                        <select multiple id="catering" class="inputText">
                             <option value="ses">Waiting for input</option>
                         </select>
                 </div>
                 <div id="facilitySelector">
                     <h2<label>Facility</label>
-                        <select multiple id="facility">
+                        <select multiple id="facility" class="inputText">
                             <option value="ses">Waiting for input</option>
                         </select>
                         <button type="submit" onCLick="submitForm()">Create event</button>
