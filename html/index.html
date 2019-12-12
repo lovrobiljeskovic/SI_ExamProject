@@ -7,7 +7,7 @@
 
     <title>Event planner</title>
 
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="css/index.css">
 </head>
 
 <body class="bg" onload="getInputValues()">
@@ -31,13 +31,25 @@
                         <select multiple id="facility" class="inputText">
                             <option value="ses">Waiting for input</option>
                         </select>
+                </div>
+                <div id="accommodationSelector">
+                    <h2<label>Accommodation</label>
+                        <select multiple id="accommodation" class="inputText">
+                            <option value="ses">Waiting for input</option>
+                        </select>     
+                </div>
+                <div id="transportationSelector">
+                    <h2<label>Transportation</label>
+                        <select multiple id="facility" class="inputText">
+                            <option value="ses">Waiting for input</option>
+                        </select>
                         <button type="submit" onCLick="submitForm()">Create event</button>
                 </div>
         </div>
 
     </center>
 
-    <script src="index.js"></script>
+    <script src="../js/index.js"></script>
 </body>
 
 </html>

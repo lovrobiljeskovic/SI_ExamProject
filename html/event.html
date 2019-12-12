@@ -1,0 +1,153 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Event planner</title>
+
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body class="bg" onload="getSingleEvent()">
+    <ul>
+        <li><a href="index.html">Create Event</a></li>
+        <li><a href="events.html">See Events</a></li>
+    </ul>
+
+    <div style="display:flex; align-items: center;justify-content: center; text-align: center;">
+
+        <div id="singleevent" class="greyborder"
+            style="margin-top: 5%;display: flex; justify-content: space-between; align-items: center;">
+            <div class="greyborder"
+                style="padding-bottom: 2% !important;display: flex; justify-content: space-between; align-items: center;flex-direction:column;">
+                <button onclick="goBack()" class="niceButton1">Back</button>
+                <span style="margin-left: 5%;"><a> Id: </a> <a id="eventid"> </a></span>
+                <div style="display: flex; flex-direction: row;">
+                    <div style="margin-right: 5%;">
+                        <h3>Facilities: </h3>
+                        <table class="tableEvent" id="facilities">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Address</th>
+                                    <th>Capacity</th>
+                                </tr>
+                            </thead>
+                            <tbody id="facilitiesBody">
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div style="margin-left: 5%;">
+                        <h3>Caterings: </h3>
+                        <table class="tableEvent" id="caterings">
+                            <thead>
+                                <th>Name</th>
+                                <th>Address</th>
+                                <th>Food Type</th>
+                            </thead>
+                            <tbody id="cateringsBody">
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+                <div style="display: flex; flex-direction: row;">
+                    <div style="margin-right: 5%;">
+                        <h3>Accomodation: </h3>
+                        <table class="tableEvent" id="caterings">
+                            <thead>
+                                <th>Name</th>
+                                <th>Address</th>
+                                <th>Type</th>
+                            </thead>
+                            <tbody id="cateringsBody">
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div style="margin-left: 5%;">
+                        <h3>Transportation: </h3>
+                        <table class="tableEvent" id="caterings">
+                            <thead>
+                                <th>Name</th>
+                                <th>Type</th>
+                            </thead>
+                            <tbody id="transportationBody">
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+
+                <div style="display: flex; flex-direction: row;">
+                    <div style="margin-right: 5%;">
+                        <h3>Add Participants: </h3>
+                        <table class="tableEvent" id="participantTable">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                </tr>
+                            </thead>
+                            <tbody id="participantBody">
+
+                            </tbody>
+
+                        </table>
+                        <div id="addparticipant" class="addParticipant">
+                            <span><label style="float:left; margin-left: 2%;">Name: </label> <label>Email:
+                                </label></span><br>
+                            <span>
+                                <form onsubmit="event.preventDefault(); addParticipant2List()">
+                                    <input class="eventInput" id="participantName" type="text" />
+                                    <input class="eventInput" id="participantEmail" name="emailaddress" type="email" required />
+                                    <button class="buttonEvent1" type="sumbmit">Add</button>
+                                </form>
+                            </span>
+
+                        </div>
+                        <button type="button" class="buttonEvent" onclick="submitParticipants()">Save changes</button>
+                    </div>
+
+
+                    <div style="margin-left: 5%;">
+                        <h3>Active Participants: </h3>
+                        <table class="tableParticipants" id="participants">
+                            <thead>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>
+                                    <center>Remove</center>
+                                </th>
+                            </thead>
+                            <tbody id="participantsBody">
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+
+
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+    <script src="../js/event.js"></script>
+</body>
+
+</html>

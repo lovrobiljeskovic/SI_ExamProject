@@ -81,7 +81,7 @@
   }
 
   .bg {
-    background-image:url(facility.jpg);
+    background-image:url(../images/facility.jpg);
 
     background-repeat:no-repeat;
  
@@ -116,8 +116,7 @@
   
   .tableParticipants{
     border-collapse: collapse;
-    width: 60%;
-    margin-top: 3%;
+    width: 420px;
   }
   
   th, td {
@@ -153,4 +152,14 @@
     cursor: pointer;
     align-self: flex-start;
     margin-left: 2%;
+  }
+
+  .removeBtn{
+      background-repeat:no-repeat;
+      border: red;
+      border-radius: 50%;
+      cursor:pointer;
+      overflow: hidden;
+      outline:none;
+      color:black;
   }
