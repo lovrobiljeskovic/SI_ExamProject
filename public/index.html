@@ -32,18 +32,11 @@
                             <option value="ses">Waiting for input</option>
                         </select>
                 </div>
-                <div id="accommodationSelector">
-                    <h2<label>Accommodation</label>
-                        <select multiple id="accommodation" class="inputText">
-                            <option value="ses">Waiting for input</option>
-                        </select>
-                </div>
                 <div id="transportationSelector">
                     <h2<label>Transportation</label>
                         <select multiple id="facility" class="inputText">
                             <option value="ses">Waiting for input</option>
                         </select>
-                        <button type="submit" onCLick="submitForm()">Create event</button>
                 </div>
                 <div id="accommodationSelector">
                     <h2>Accomodation</h2>
@@ -53,7 +46,18 @@
                         <input id="accTo" type="date" placeholder="End date" required />
                         <button type="submit">Search</button>
                     </form>
+                    <table id="accomodationHotelTable">
+                        <tr>
+                            <th>Name</th>
+                            <th>Address</th>
+                            <th>Distance to center</th>
+                            <th></th>
+                        </tr>
+                        <tbody>
+                        </tbody>
+                    </table>
                 </div>
+                <button type="submit" onCLick="submitForm()">Create event</button>
         </div>
 
     </center>

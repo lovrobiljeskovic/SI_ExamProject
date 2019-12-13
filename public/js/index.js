@@ -143,33 +143,82 @@ async function searchAvailability(e) {
     let city = document.getElementById('accCity').value;
     if (!from || !to || !city) return;
 
-    toggleAvailabilityForm(false);
+    toggleAccomodationSection(false);
     await fetch(`${accomodationUrl}/hotel/availability?startDate=${from}&endDate=${to}&city=${city}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
         },
     }).catch(e => {
-        toggleAvailabilityForm(true)
+        toggleAccomodationSection(true)
         throw e;
     });
 
     try {
-        let response = await poll(`${accomodationUrl}/hotel/availability/results`, {
+        let hotels = await poll(`${accomodationUrl}/hotel/availability/results`, {
             method: 'GET'
         });
-        console.log('response h', response);
+        console.log('response h', hotels);
+        showHotels(hotels);
     } finally {
-        toggleAvailabilityForm(true);
+        toggleAccomodationSection(true);
     }
 }
 
-function toggleAvailabilityForm(set) {
+function searchRooms(e) {
+    let hotelId = parseInt(e.target.getAttribute('data-hotel-id'));
+    console.log('searchRooms', hotelId);
+    if (!hotelId) return;
+
+    // TODO send findRooms request, similarly like under searchAvailability
+}
+
+function toggleAccomodationSection(set) {
     let form = document.querySelector('form.accomodation-availability-form');
     for (let c of form.children) {
         if (set) c.removeAttribute('disabled');
         else c.setAttribute('disabled', true);
     }
+    let header = document.querySelector('#accommodationSelector h2')
+    if (set) header.classList.remove('loading')
+    else header.classList.add('loading')
+}
+
+function showHotels(hotels) {
+    let body = document.querySelector('#accomodationHotelTable tbody');
+
+    let td, btn;
+
+    while (body.children.length > 1) {
+        body.removeChild(body.lastChild);
+    }
+
+    for (let hotel of hotels) {
+        let row = document.createElement('tr');
+
+        td = document.createElement('td');
+        td.innerHTML = hotel.Name;
+        row.appendChild(td);
+
+        td = document.createElement('td');
+        td.innerHTML = hotel.Address;
+        row.appendChild(td);
+
+        td = document.createElement('td');
+        td.innerHTML = hotel.DistanceToCenter;
+        row.appendChild(td);
+
+        td = document.createElement('td');
+        btn = document.createElement('button');
+        btn.innerHTML = 'Browse rooms';
+        btn.setAttribute('name', 'accSearchRoomsBtn')
+        btn.setAttribute('data-hotel-id', hotel.ID);
+        td.appendChild(btn);
+        row.appendChild(td);
+
+        body.appendChild(row);
+    }
+
 }
 
 function setToDate() {
@@ -205,7 +254,6 @@ async function poll(url, options, timeout = 10000) {
                 clearInterval(id);
                 return reject(e);
             });
-            console.log('response', response);
             if (response.ok && response.status !== 204) {
                 clearInterval(id);
                 return resolve(response.json());
@@ -218,4 +266,8 @@ async function poll(url, options, timeout = 10000) {
 (function () {
     document.getElementById('accFrom').value = formatDate(new Date());
     setToDate();
+
+    document.addEventListener('click', (e) => {
+        if (e.target.name === 'accSearchRoomsBtn') searchRooms(e);
+    });
 }());
