@@ -36,6 +36,19 @@ app.get('/hotel/availability/results', function (req, res) {
     }
 })
 
+app.get('/hotel/:hotelId/rooms', async function (req, res) {
+    if (!req.params.hotelId) {
+        return express.sendStatus(422);
+    }
+    // TODO
+    res.sendStatus(202)
+})
+
+app.get('/hotel/:hotelId/rooms/results', function (req, res) {
+    // TODO
+    res.sendStatus(204);
+})
+
 app.listen(port, async () => {
     await mqService.connection('');
     await mqService.onHotelAvailability(async (data) => {
