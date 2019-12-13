@@ -36,7 +36,7 @@
                     <h2<label>Accommodation</label>
                         <select multiple id="accommodation" class="inputText">
                             <option value="ses">Waiting for input</option>
-                        </select>     
+                        </select>
                 </div>
                 <div id="transportationSelector">
                     <h2<label>Transportation</label>
@@ -44,6 +44,15 @@
                             <option value="ses">Waiting for input</option>
                         </select>
                         <button type="submit" onCLick="submitForm()">Create event</button>
+                </div>
+                <div id="accommodationSelector">
+                    <h2>Accomodation</h2>
+                    <form class="accomodation-availability-form" onsubmit="searchAvailability(event)">
+                        <input id="accCity" type="text" placeholder="City" required />
+                        <input id="accFrom" type="date" placeholder="Start date" required oninput="setToDate(event)" />
+                        <input id="accTo" type="date" placeholder="End date" required />
+                        <button type="submit">Search</button>
+                    </form>
                 </div>
         </div>
 

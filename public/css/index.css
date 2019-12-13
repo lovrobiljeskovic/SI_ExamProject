@@ -163,3 +163,8 @@
       outline:none;
       color:black;
   }
+
+  .accomodation-availability-form {
+    display: flex;
+    flex-direction: column;
+  }
