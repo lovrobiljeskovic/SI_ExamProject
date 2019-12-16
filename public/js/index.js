@@ -24,8 +24,6 @@ async function getCatering() {
             caterings.forEach((catering) => {
                 cateringDOM.innerHTML += '<option value="' + catering.cateringId + '" label="' + catering.name + '"> ' + catering.name + ' </option>'
             })
-
-
         }).then(() => {
             return getFacilities();
         }).catch(e => {

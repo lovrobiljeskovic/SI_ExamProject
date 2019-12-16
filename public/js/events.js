@@ -4,12 +4,14 @@ const facilityUrl = `${host}/facility`;
 const eventUrl = `${host}/event`;
 const localhost = "http://localhost"
 
+
 let GLOBAL_EVENTS = {};
 let participantsList = [];
 
 
 async function getEvents() {
-
+    var loadingDiv = document.getElementById('loadingDiv');
+    loadingDiv.innerHTML = `<IMG SRC="./images/trans.gif">`
     fetch(eventUrl + '/all')
         .then(res => {
             return res.json()
@@ -34,6 +36,7 @@ async function getEvents() {
             let tableString;
             tableString = "<tr> <th> Name </th> <th> Event id </th> <th> Facility </th> <th> Catering </th> <th> </th> </tr>"
             //console.log(obj.events.events.length);
+            loadingDiv.innerHTML = "";
             for (var i = 0; i < events.length; i++) {
                 try {
                     tableString += "<tr> <td>" + events[i].event.name + "</td> <td> " + events[i].event.id + "</td>" + "<td> " + events[i].facilities[0].name + "</td> <td> " + events[i].caterings[0].name + "</td> <td> <center> <button class='niceButton' onClick='redirect(" + events[i].event.id + ")'> show </button> </center> </td> </tr>"
@@ -50,7 +53,7 @@ async function getEvents() {
 
 function redirect(eventid) {
     sessionStorage.setItem('eventid', eventid);
-    window.location.href = "../html/event.html";
+    window.location.href = "./event.html";
 }
 
 function goBack() {
