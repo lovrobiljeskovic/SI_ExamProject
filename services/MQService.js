@@ -1,6 +1,4 @@
-const env = process.env;
 var amqp = require('amqplib/callback_api');
-const mqHost = env.MQ_HOST || 'amqp://localhost';
 
 
 

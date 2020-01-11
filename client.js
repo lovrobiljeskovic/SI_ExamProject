@@ -1,12 +1,14 @@
 var express = require('express')
 var cors = require('cors')
 var session = require('express-session')
+const env = process.env;
 const sessionStore = new session.MemoryStore();
 const app = express()
 
 const MQService = require('./services/MQService');
 
 const port = 3050
+const mqHost = env.MQ_HOST || 'amqp://localhost';
 
 let mqService = new MQService();
 
@@ -50,7 +52,7 @@ app.get('/hotel/:hotelId/rooms/results', function (req, res) {
 })
 
 app.listen(port, async () => {
-    await mqService.connection('');
+    await mqService.connection(mqHost);
     await mqService.onHotelAvailability(async (data) => {
         let ses = await getSession(data.sessionID);
         ses["hotels"] = data.hotels;
