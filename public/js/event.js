@@ -1,9 +1,8 @@
 const host = "http://softfall2019-si.software:30427"
-const localhost = "http://localhost"
 const cateringUrl = `${host}/catering`;
 const facilityUrl = `${host}/facility`;
 const eventUrl = `${host}/event`;
-const participantURL = `http://localhost:8082`;
+const participantURL = `${window.location.protocol}//${window.location.hostname}:8082`;
 
 let GLOBAL_EVENTS = {};
 let participantsList = [];
@@ -82,7 +81,7 @@ async function submitParticipants() {
     }
     console.log(JSON.stringify(fetchArr))
     try {
-        let res = await fetch('http://localhost:8082/', {
+        let res = await fetch(participantURL, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

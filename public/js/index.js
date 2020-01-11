@@ -2,8 +2,7 @@ const host = "http://softfall2019-si.software:30427"
 const cateringUrl = `${host}/catering`;
 const facilityUrl = `${host}/facility`;
 const eventUrl = `${host}/event`;
-const localhost = "http://localhost";
-const accomodationUrl = "http://localhost:3050";
+const accomodationUrl = `${window.location.protocol}//${window.location.hostname}:${window.location.port}`;
 
 let GLOBAL_EVENTS = {};
 let participantsList = [];
