@@ -39,8 +39,9 @@
                         <input id="accFrom" type="date" placeholder="Start date" required oninput="setToDate(event)" />
                         <input id="accTo" type="date" placeholder="End date" required />
                         <button type="submit">Search</button>
+                        <button type="button" onclick="removeAccomodation()">Cancel</button>
                     </form>
-                    <table id="accomodationHotelTable">
+                    <table id="accomodationHotelTable" style="visibility: hidden;">
                         <tr>
                             <th>Name</th>
                             <th>Address</th>
@@ -50,6 +51,22 @@
                         <tbody>
                         </tbody>
                     </table>
+
+                    <form id="accomodationRoomsForm" style="visibility: hidden;">
+                        <input type="hidden" id="accHotelId" value="">
+                        <table id="accomodationRoomsTable">
+                            <tr>
+                                <th>Type</th>
+                                <th>Capacity</th>
+                                <th>Price</th>
+                                <th>Select</th>
+                            </tr>
+                            <tbody>
+                            </tbody>
+                        </table>
+                        <input type="number" id="accPassportNumber" value="" placeholder="Passport number for the hotel"
+                            required>
+                    </form>
                 </div>
                 <button type="submit" onCLick="submitForm()">Create event</button>
         </div>

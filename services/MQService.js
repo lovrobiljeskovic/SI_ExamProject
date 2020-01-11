@@ -24,10 +24,26 @@ class MQService {
     }
 
     availability(sessionID, startDate, endDate, city, eventId) {
-        return this.channel.sendToQueue('availability',
-            Buffer.from(JSON.stringify({ sessionID, startDate, endDate, city, eventId }), 'utf8'), {
-        });
+        return this.send('availability', { sessionID, startDate, endDate, city, eventId })
+    }
 
+    rooms(sessionID, hotelId, startDate, endDate) {
+        return this.send('rooms', {
+            sessionID,
+            hotelId,
+            startDate,
+            endDate
+        })
+    }
+
+    createBooking(sessionID, eventId, startDate, endDate, roomIds, passportNumber) {
+        return this.send('booking', {
+            sessionID, eventId, startDate, endDate, roomIds, passportNumber, numGuests: 0,
+        });
+    }
+
+    findBookings(sessionID, eventId) {
+        return this.send('bookingList', { sessionID, eventId });
     }
 
     async declareQueue(name) {
@@ -41,14 +57,22 @@ class MQService {
     }
 
     async onHotelAvailability(callback) {
+        return this.on('availabilityResults', callback);
 
-        var q = await this.declareQueue("availabilityResults")
+    }
+
+    async on(queue, callback) {
+        var q = await this.declareQueue(queue)
 
         this.channel.consume(q.queue, function (msg) {
             callback(JSON.parse(msg.content.toString()))
         }, {
             noAck: true
         });
+    }
+
+    async send(queue, data) {
+        return this.channel.sendToQueue(queue, Buffer.from(JSON.stringify(data), 'utf8'), {});
     }
 
     async  createChannel() {
