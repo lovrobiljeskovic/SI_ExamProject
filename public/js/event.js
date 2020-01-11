@@ -24,19 +24,28 @@ async function getSingleEvent() {
     let catering = await cater.json();
     let participants = await partici.json();
     console.log(participants)
+
     facility.forEach((facility) => {
         facilitiesDOM.innerHTML += "<tr> <td>" + facility.name + "</td>  <td>" + facility.address + "</td> <td>" + facility.capacity + "</td> </tr>"
     })
-
     catering.forEach((catering) => {
         cateringDOM.innerHTML += "<tr> <td> " + catering.name + "</td>  <td> " + catering.address + "</td> <td> " + catering.typeOfFood + "</td> </tr>"
     })
+    try {
+        participants.forEach((participant) => {
+            //participantDOM.innerHTML += "<tr><td> " + participant.name + "</td>  <td> " + participant.email + "</td>" + "<td>" + "<center><button class='removeBtn' onClick=`${}`>X</button></center>"+"</td> </tr>"
+            participantDOM.innerHTML += `<tr><td id='${participant.email}'> ${participant.name} </td>  <td> ${participant.email} </td><td><center><button class='removeBtn' onClick='removeParticipant(\"${participant.id}\")'>X</button></center> </td> </tr>`
+        })
+    } catch (e) {
+        alert(e);
+    }
 
-    participants.forEach((participant) => {
-        //participantDOM.innerHTML += "<tr><td> " + participant.name + "</td>  <td> " + participant.email + "</td>" + "<td>" + "<center><button class='removeBtn' onClick=`${}`>X</button></center>"+"</td> </tr>"
-        participantDOM.innerHTML += `<tr><td id='${participant.email}'> ${participant.name} </td>  <td> ${participant.email} </td><td><center><button class='removeBtn' onClick='removeParticipant(\"${participant.email}\")'>X</button></center> </td> </tr>`
 
-    })
+
+
+
+
+
 
 }
 
@@ -78,10 +87,10 @@ async function submitParticipants() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({participants: fetchArr})
+            body: JSON.stringify({ participants: fetchArr })
         })
         let response = await res.json();
-        if(await response.message == "success"){
+        if (await response.message == "success") {
             document.getElementById("participantBody").innerHTML = "";
             window.location.reload()
         }
@@ -96,22 +105,20 @@ function goBack() {
     window.history.back();
 }
 
-async function removeParticipant(mail) {
-    console.log(mail)
-    let id = sessionStorage.getItem('eventid');
+async function removeParticipant(participant_id) {
+    let event_id = sessionStorage.getItem('eventid');
 
-    let partici = await fetch(participantURL + "/",
+    let partici = await fetch(participantURL + "/" + participant_id + "/event/" + event_id,
         {
             method: 'DELETE',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: mail, eventId: id })
+            headers: { 'Content-Type': 'application/json' }
         })
 
     var res = await partici.json()
     console.log(res)
-    if(res.message == "success"){
+    if (res.message == "success") {
         window.location.reload();
-    }else{
+    } else {
         alert(res.message)
     }
 
